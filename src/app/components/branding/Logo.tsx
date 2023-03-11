@@ -3,10 +3,8 @@ interface LogoSize {
 }
 
 export default function Logo({ size }: LogoSize) {
-  const logoSize = `text-${size}xl`;
-
   return (
-    <h1 className={`${logoSize} tracking-wide mb-6`}>
+    <h1 className="text-5xl tracking-wide mb-6">
       <span className="text-orange-400 underline">Item</span>izE
       <span className="text-orange-400">.</span>
     </h1>
