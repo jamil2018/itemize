@@ -1,8 +1,10 @@
 "use client";
-
 import Link from "next/link";
 import Logo from "./components/branding/Logo";
 import FormGroup from "./components/form/FormGroup";
+import * as Yup from "yup";
+import TextInput from "./components/form/TextInput";
+import { Formik, Form } from "formik";
 
 export default function Home() {
   return (
@@ -15,38 +17,50 @@ export default function Home() {
           Sign <span className="text-orange-500 underline">in</span>
         </h1>
         <div className="bg-gray-400 bg-opacity-20 backdrop-blur-lg rounded drop-shadow-lg w-3/6 p-4">
-          <form action="">
-            <FormGroup>
-              <label htmlFor="name" className="text-sm font-semibold">
-                Email
-              </label>
-              <input
-                className="bg-transparent outline outline-1 outline-gray-500 rounded-sm mt-2 p-2 text-gray-300"
-                id="name"
+          <Formik
+            initialValues={{
+              email: "",
+              password: "",
+            }}
+            validationSchema={Yup.object({
+              email: Yup.string()
+                .email("Invalid email address")
+                .required("This field is required"),
+              password: Yup.string().required("This field is required"),
+            })}
+            onSubmit={(values, { setSubmitting }) => {
+              console.log(values);
+              setSubmitting(false);
+            }}
+          >
+            <Form>
+              <TextInput
+                label="Email"
+                name="email"
                 type="text"
+                placeholder="john.doe@email.com"
               />
-            </FormGroup>
-            <FormGroup>
-              <label htmlFor="password" className="text-sm font-semibold">
-                Password
-              </label>
-              <input
-                className="bg-transparent outline outline-1 outline-gray-500 rounded-sm mt-2 p-2 text-gray-300"
-                id="password"
+              <TextInput
+                label="Password"
+                name="password"
                 type="password"
+                placeholder="enter password"
               />
-            </FormGroup>
-            <button className="bg-orange-500 text-white block mt-8 px-5 py-2 w-full rounded-sm hover:bg-orange-600">
-              Login
-            </button>
-            <hr className="mt-6 mb-3 opacity-25" />
-            <Link
-              className="text-orange-500 font-semibold hover:underline"
-              href="/login/reset"
-            >
-              forgot password?
-            </Link>
-          </form>
+              <button
+                type="submit"
+                className="bg-orange-500 text-white block mt-8 px-5 py-2 w-full rounded-sm hover:bg-orange-600"
+              >
+                Login
+              </button>
+            </Form>
+          </Formik>
+          <hr className="mt-4 mb-3 opacity-25" />
+          <Link
+            className="text-orange-500 font-semibold hover:underline"
+            href="/login/reset"
+          >
+            forgot password?
+          </Link>
         </div>
       </div>
     </div>
